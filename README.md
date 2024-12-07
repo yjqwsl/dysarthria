@@ -30,7 +30,7 @@ Download the Avatar Scene (2 options available) and make sure to store it in you
 Run the command as per the documentation and the docker container should have the final log line `app ready`.
 
 ### Run Omniverse Renderer Microservice
-In a separate terminal in your main working directory, run the docker run command to start the Omniverse Renderer Microservice, making sure to replace the `<path-to-avatar-scene-folder>` appropriately.
+In a separate terminal in your main working directory, run the docker run command to start the Omniverse Renderer Microservice, making sAudio2Face Avatar Animation Streamure to replace the `<path-to-avatar-scene-folder>` appropriately.
 ![image](https://github.com/user-attachments/assets/cafcf21b-40a9-41da-8342-c2ef60a64ada)
 As the document stated, the service is ready when you see the line `[SceneLoader] Assets loaded`
 
@@ -93,4 +93,34 @@ _Running the command with a sample mandarin input audio file_
 Change the command accordingly by replacing `<filepath_to_custom_audio_file>` with custom input audio files for the avatar to speak with: `python3 validate.py -u 127.0.0.1:50000 -i $stream_id <filepath_to_custom_audio_file>`.
 
 ## Customisations
-To customise your own avatar and scene, you need to use the Avatar Configurator and follow the instructions [here](https://docs.nvidia.com/ace/latest/modules/avatar_customization/Avatar_Configurator.html#avatar-configurator).
+To customise your own avatar and scene, you need to use the Avatar Configurator and follow the instructions [here](https://docs.nvidia.com/ace/latest/modules/avatar_customization/Avatar_Configurator.html#avatar-configurator) for setup instructions.
+
+![image](https://github.com/user-attachments/assets/2ea52c50-55a8-4e77-a825-72893bb1796e)
+_The Avatar Configurator will take some time to load_
+
+![image](https://github.com/user-attachments/assets/9b23a968-5f68-4eca-889a-a73e2be4ef2b)
+_A default avatar will appear, indicating the Avatar Configurator is ready for use_
+
+![image](https://github.com/user-attachments/assets/01de3e88-72d8-4bf4-8c75-98d2e69c69aa)
+_Make changes to the avatar and scene in the Properties panel on the right side of the window. Click on Save Scene at the bottom right when satisfied._
+
+![image](https://github.com/user-attachments/assets/35ffe128-0e08-4396-a246-c3c8b4650a69)
+_Save scene will save all necessary files to the /exported folder. You will use this folder in your Audio2Face Avatar Animation Stream in the next step._
+
+### Using your customised Avatar and Scene
+Replace the path to your newly created and saved avatar and scene folder accordingly.
+
+1. Run Animation Graph Microservice by changing the command to `docker run -it --rm --gpus all --network=host --name anim-graph-ms -v <path_to_your_new_avatar_and_scene_folder>:/home/ace/asset nvcr.io/nvidia/ace/ia-animation-graph-microservice:1.0.2`.
+2. Run Omniverse Renderer Microservice by running the command to `docker run --env IAORMS_RTP_NEGOTIATION_HOST_MOCKING_ENABLED=true --rm --gpus all --network=host --name renderer-ms -v <path_to_your_new_avatar_and_scene_folder>:/home/ace/asset nvcr.io/nvidia/ace/ia-omniverse-renderer-microservice:1.0.5`
+3. You may run the remaining microservice and the Gstreamer audio and video listeners same as the above. When you have connected the microservices with the Common Stream ID, the application will be running your newly created avatar and scene.
+4. You may now invoke the same python command to invoke the validate.py script as mentioned in [this section of the documentation] (https://docs.nvidia.com/ace/latest/workflows/animation_pipeline/docker_with_omniverse_renderer.html#test-audio2face-3d) to make your avatar speak with your audio files.
+
+![image](https://github.com/user-attachments/assets/61ed14b7-c89f-46be-b3bb-2524ec039ae2)
+_The application now starts with your newly created avatar and scene_
+
+https://github.com/user-attachments/assets/17939309-88a7-48f4-a152-3ea716412a16
+
+https://github.com/user-attachments/assets/d2a5ba2b-306c-4a4b-9c9f-bb4b0a3862ec
+
+_Your newly created avatar and scene are similarly controlled as before_
+
