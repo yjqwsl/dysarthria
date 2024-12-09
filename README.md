@@ -23,6 +23,15 @@ Run the following commands _inside the docker container_ to ensure you have the 
 Run `python asrtts_zh.py` for training.
 During training, it fine-tunes the existing end-to-end ASR model and saves the checkpoints of both the trained hybrid end-to-end ASR model and the trained end-to-end ASR model. Each training is set to 100 epochs. 
 
+https://www.aishelltech.com/AISHELL_6B
+
+# Mandarin Dysarthric Dataset
+### Data preparation
+Download the dataset from [here] (https://www.aishelltech.com/AISHELL_6B)
+Then follow the instructions [here] (https://github.com/greeeenmouth/LRDWWS) to arrange the data in this folder structure.
+### Data pre-processing for NeMo toolkit
+Pre-process the data to generate manifest files for training in NeMo toolkit, by following these documents (https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html#aishell-2) and (https://github.com/NVIDIA/NeMo/blob/main/tutorials/asr/ASR_CTC_Language_Finetuning.ipynb)
+
 ### ASR Inference
 `asrtts_inference.py`
 During inference, the predicted text from the end-to-end ASR model is saved as a string variable and parsed to the end-to-end TTS model to generate the synthetic speech.
