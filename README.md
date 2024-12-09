@@ -1,7 +1,29 @@
 # Dysarthria
 
 # Hybrid ASR-TTS Setup
+# Conda
+We recommend installing NeMo in a fresh Conda environment.
+conda create --name nemo python==3.8
+conda activate nemo
 
+# using NVIDIA's PyTorch container version 22.11-py3 and then installing from GitHub.
+docker run --gpus all -it --rm -v <nemo_github_folder>:/NeMo --shm-size32g \
+-p 8888:8888 -p 6006:6006 --ulimit memlock=-1 --ulimit \
+stack=67108864 --device=/dev/snd nvcr.io/nvidia/pytorch:22.11-py3
+
+# install dependencies inside the docker
+!pip install nemo_toolkit['asr']
+!pip install nemo_text_processing
+!pip install nemo_toolkit['tts']
+!pip install wandb
+
+# for training run this script
+python asrtts_zh.py
+During training, it fine-tunes the existing end-to-end ASR model and saves the checkpoints of both the trained hybrid end-to-end ASR model and the trained end-to-end ASR model. Each training is set to 100 epochs. 
+
+# for inference run this script
+asrtts_inference.py
+During inference, the predicted text from the end-to-end ASR model is saved as a string variable and parsed to the end-to-end TTS model to generate the synthetic speech.
 
 # Audio2Face Avatar Animation Stream
 This document details the steps for setting up Avatar Animation Stream pipeline with the following microservices to be run as separate Docker containers:
